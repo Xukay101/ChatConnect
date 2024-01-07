@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+
+  #######################################
+  # Database
+  #######################################
+  database:
+    image: mysql:5.7
+    container_name: mysql
+    env_file:
+      - ./api/.env
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+      
+  #######################################
+  # Cache
+  #######################################
+  cache:
+    container_name: redis
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes: 
+      - cache:/data
+
+  #######################################
+  # Backend
+  #######################################
+  api:
+    build: ./api
+    container_name: api
+    env_file:
+      - ./api/.env
+    ports:
+      - '8000:8000'
+    depends_on:
+      - database
+      - cache
+
+volumes:
+  mysql-data:
+  cache:
+    driver: local
