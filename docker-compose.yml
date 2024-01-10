@@ -15,7 +15,6 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
 
-      
   #######################################
   # Cache
   #######################################
@@ -35,6 +34,8 @@ services:
   api:
     build: ./api
     container_name: api
+    volumes:
+      - ./api:/code
     env_file:
       - ./api/.env
     ports:
