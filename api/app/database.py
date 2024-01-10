@@ -19,7 +19,7 @@ local_session = sessionmaker(
 )
 
 # Define an async function to get the database session
-async def get_db() -> AsyncSession:
+async def get_session() -> AsyncSession:
     async_session = local_session
     
     async with async_session() as db:
