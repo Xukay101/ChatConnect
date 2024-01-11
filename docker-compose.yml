@@ -9,7 +9,7 @@ services:
     image: mysql:5.7
     container_name: mysql
     env_file:
-      - ./api/.env
+      - ./api/docker.env
     ports:
       - '3306:3306'
     volumes:
@@ -37,7 +37,7 @@ services:
     volumes:
       - ./api:/code
     env_file:
-      - ./api/.env
+      - ./api/docker.env
     ports:
       - '8000:8000'
     depends_on:
