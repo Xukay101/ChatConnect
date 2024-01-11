@@ -5,8 +5,7 @@ from pydantic import EmailStr
 
 from app.utils import generate_id
 
-class User(SQLModel, table=True): # Refactorizar para que genere un id con nanoid
-    # id: str = Field(primary_key=True)
+class User(SQLModel, table=True):
     id: str = Field(default_factory=generate_id, primary_key=True)
     first_name: str
     last_name: str

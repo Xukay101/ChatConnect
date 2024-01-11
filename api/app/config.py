@@ -11,6 +11,10 @@ class Settings(BaseSettings):
         extra='ignore'
     )
 
+    JWT_SECRET_KEY: str # openssl rand -hex 32
+    JWT_ALGORITHM: str = 'HS256'
+    JWT_EXPIRE_MINUTES: int = 30
+
     DATABASE_URI: str
 
 settings = Settings()
