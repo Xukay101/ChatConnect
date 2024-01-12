@@ -9,13 +9,12 @@ services:
     image: mysql:5.7
     container_name: mysql
     env_file:
-      - ./api/.env
+      - ./api/docker.env
     ports:
       - '3306:3306'
     volumes:
       - mysql-data:/var/lib/mysql
 
-      
   #######################################
   # Cache
   #######################################
@@ -25,7 +24,7 @@ services:
     restart: always
     ports:
       - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    command: redis-server --save 20 1 --loglevel warning --requirepass my_redis_pass
     volumes: 
       - cache:/data
 
@@ -35,8 +34,10 @@ services:
   api:
     build: ./api
     container_name: api
+    volumes:
+      - ./api:/code
     env_file:
-      - ./api/.env
+      - ./api/docker.env
     ports:
       - '8000:8000'
     depends_on:
