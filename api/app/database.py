@@ -1,3 +1,4 @@
+import redis.asyncio as redis
 from sqlalchemy.ext.asyncio.session import AsyncSession
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
@@ -18,10 +19,14 @@ local_session = sessionmaker(
     expire_on_commit=False
 )
 
-# Define an async function to get the database session
+# Define an async function to get the mysql database session
 async def get_session() -> AsyncSession:
     async_session = local_session
     
     async with async_session() as db:
         yield db
         await db.commit()
+
+# Define an async function to get the redis database session
+async def get_redis():
+    return redis.from_url(settings.REDIS_URI)

@@ -16,5 +16,6 @@ class Settings(BaseSettings):
     JWT_EXPIRE_MINUTES: int = 30
 
     DATABASE_URI: str
+    REDIS_URI: str
 
 settings = Settings()
