@@ -29,7 +29,7 @@ async def socket(
     session: AsyncSession = Depends(get_session),
 ):
     # Walidate if room exist
-    query = select(Room).where(Room.id == room_id).options(selectinload(Room.messages))
+    query = select(Room).where(Room.id == room_id).options(selectinload(Room.messages).selectinload(Message.sender))
     result = await session.execute(query)
     room = result.scalars().first()
     if not room:
