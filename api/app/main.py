@@ -29,10 +29,12 @@ async def root():
 # Connect routers
 from app.routers.auth import router as auth_router
 from app.routers.user import router as user_router
+from app.routers.chat import router as chat_router
 
 routers = [
     auth_router,
-    user_router
+    user_router,
+    chat_router
 ]
 
 for router in routers:

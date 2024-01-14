@@ -1,6 +1,6 @@
 from datetime import timedelta, datetime
 
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, WebSocket, Request
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
 from pydantic import ValidationError
@@ -32,7 +32,11 @@ async def is_token_revoked(token: str) -> bool:
         return token_status.decode('utf-8')  == 'revoked'
     return False
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
+class CustomOAuth2PasswordBearer(OAuth2PasswordBearer):
+    async def __call__(self, request: Request = None, websocket: WebSocket = None):
+        return await super().__call__(request or websocket)
+
+oauth2_scheme = CustomOAuth2PasswordBearer(tokenUrl='login')
 
 async def get_current_user(token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)) -> User:
     # Check if token in blacklist
