@@ -3,10 +3,8 @@ import logging
 from fastapi import FastAPI
 
 from app.config import settings
-from app.routers.auth import router as auth_router
 from app.database import get_redis
 from app.exc import RedisConnectionError
-
 
 app = FastAPI()
 
@@ -29,4 +27,15 @@ async def root():
     return {'message': f'Welcome to {settings.APP_NAME}'}
 
 # Connect routers
-app.include_router(auth_router, prefix=settings.APP_PREFIX)
+from app.routers.auth import router as auth_router
+from app.routers.user import router as user_router
+from app.routers.chat import router as chat_router
+
+routers = [
+    auth_router,
+    user_router,
+    chat_router
+]
+
+for router in routers:
+    app.include_router(router, prefix=settings.APP_PREFIX)

@@ -31,6 +31,8 @@ sys.path = ['', '..'] + sys.path[1:]
 
 # Models
 from app.models.user import User
+from app.models.message import Message
+from app.models.room import Room
 
 target_metadata = SQLModel.metadata
 

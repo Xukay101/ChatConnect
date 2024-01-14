@@ -1,6 +1,7 @@
+from typing import List
 from datetime import datetime
 
-from sqlmodel import Field, SQLModel, Column, String
+from sqlmodel import Field, SQLModel, Column, String, Relationship
 from pydantic import EmailStr
 
 from app.utils import generate_id
@@ -16,3 +17,5 @@ class User(SQLModel, table=True):
     is_superuser: bool = Field(default=False)
     created_at: datetime = Field(default=datetime.utcnow(), nullable=False)
     updated_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
+
+    messages: List['Message'] = Relationship(back_populates='sender')
